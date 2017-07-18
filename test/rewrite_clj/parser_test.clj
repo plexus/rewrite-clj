@@ -238,6 +238,18 @@
   "#:abc   {:x 1, :y 1}")
 
 (tabular
+  (fact
+    "about parsing namespaced maps with namespace alias."
+    (let [n (p/parse-string ?s)]
+      (node/tag n) => :namespaced-map
+      (node/length n) => (count ?s)
+      (node/string n) => ?s
+      (node/sexpr n) => {::node/x 1, ::node/y 1}))
+  ?s
+  "#::node{:x 1, :y 1}"
+  "#::node   {:x 1, :y 1}")
+
+(tabular
   (fact "about parsing comments."
         (let [n (p/parse-string ?s)]
           n => node/printable-only?
